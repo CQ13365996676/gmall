@@ -87,4 +87,5 @@ public class ManageController {
        return manageService.getAttrValueList(baseAttrValue);
     }
 
+
 }

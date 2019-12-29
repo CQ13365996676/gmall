@@ -45,4 +45,24 @@ public interface ManageService {
      */
     List<BaseAttrValue> getAttrValueList(BaseAttrValue baseAttrValue);
 
+
+    /**
+     * 根据三级分类ID查询商品的SPU信息
+     * @param catalog3Id
+     * @return
+     */
+    List<SpuInfo> getSpuInfoList(String catalog3Id);
+
+    /**
+     * 获取基本销售属性集合
+     * @return
+     */
+    List<BaseSaleAttr> getBaseSaleAttrList();
+
+    /**
+     * 保存Spu信息
+     * @param spuInfo
+     */
+    void saveSpuInfo(SpuInfo spuInfo);
+
 }
