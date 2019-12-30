@@ -65,4 +65,29 @@ public interface ManageService {
      */
     void saveSpuInfo(SpuInfo spuInfo);
 
+    /**
+     * 根据spuID获取对应的图片集合
+     * @param spuId
+     * @return
+     */
+    List<SpuImage> getSpuImageList(String spuId);
+
+    /**
+     * 根据三级分类ID获取平台属性和对应的平台属性值
+     * @param catalog3Id
+     * @return
+     */
+    List<BaseAttrInfo> getAttrList(String catalog3Id);
+
+    /**
+     * 根据spuID获取销售属性集合
+     * @return
+     */
+    List<SpuSaleAttr> getSpuSaleAttrList(String spuId);
+
+    /**
+     * 保存sku信息
+     * @param skuInfo
+     */
+    void saveSkuInfo(SkuInfo skuInfo);
 }
