@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper SYSTEM "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.atguigu.gmall.manage.mapper.SkuSaleAttrValueMapper">
+
+    <!-- 自定义返回集合 -->
+    <resultMap id="skuSaleAttrValueMap" type="com.atguigu.gmall.bean.SkuSaleAttrValue" autoMapping="true">
+        <id property="id" column="svid"></id>
+    </resultMap>
+
+    <!-- 根据spuId查询该spu下的所有skuId及其销售属性值ID -->
+    <select id="selectSkuSaleAttrValueListBySpu" resultMap="skuSaleAttrValueMap">
+        SELECT ssav.sku_id,ssav.sale_attr_value_id
+        FROM sku_info ski INNER JOIN sku_sale_attr_value ssav
+        ON ski.id = ssav.sku_id
+        WHERE ski.spu_id = #{arg0}
+        ORDER BY ski.id,ssav.id
+    </select>
+
+</mapper>
