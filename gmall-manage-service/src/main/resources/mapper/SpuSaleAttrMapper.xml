@@ -19,4 +19,16 @@
         where sa.spu_id=#{spu_id}
     </select>
 
+    <!-- 根据spuID和skuId获取销售属性集合和销售属性值集合并判断是否被选中 -->
+    <select id="selectSpuSaleAttrListCheckBySku" resultMap="spuSaleAttrMap">
+        select sa.id ,sa.spu_id, sa.sale_attr_name,sa.sale_attr_id,
+        sv.id sale_attr_value_id,sv.sale_attr_value_name,IF(ssav.id IS NULL,0,1) ischecked
+        from spu_sale_attr sa inner join spu_sale_attr_value sv
+        on sa.spu_id=sv.spu_id and sa.sale_attr_id=sv.sale_attr_id
+        left join sku_sale_attr_value ssav
+        on ssav.sale_attr_id = sa.sale_attr_id and ssav.sale_attr_value_id = sv.id and ssav.sku_id = #{arg1}
+        where sa.spu_id=#{arg0}
+        order by sa.id,sv.id
+    </select>
+
 </mapper>

@@ -228,7 +228,8 @@ public class ManageServiceImpl implements ManageService {
      */
     @Override
     public List<SpuSaleAttr> getSpuSaleAttrList(String spuId) {
-        return spuSaleAttrMapper.selectSpuSaleAttrList(spuId);
+        List<SpuSaleAttr> spuSaleAttrList = spuSaleAttrMapper.selectSpuSaleAttrList(spuId);
+        return spuSaleAttrList;
     }
 
     /**
@@ -264,6 +265,43 @@ public class ManageServiceImpl implements ManageService {
                 skuSaleAttrValueMapper.insertSelective(skuSaleAttrValue);
             }
         }
+    }
+
+    /**
+     * 通过ID获取sku的信息
+     * @param skuId
+     * @return
+     */
+    @Override
+    public SkuInfo getSkuInfo(String skuId) {
+        //根据ID获取sku基本信息
+        SkuInfo skuInfo = skuInfoMapper.selectByPrimaryKey(skuId);
+        //根据SkuId获取sku图片信息
+        SkuImage skuImage = new SkuImage();
+        skuImage.setSkuId(skuId);
+        List<SkuImage> skuImageList = skuImageMapper.select(skuImage);
+        skuInfo.setSkuImageList(skuImageList);
+        return skuInfo;
+    }
+
+    /**
+     * 根据spuID和skuId获取销售属性集合和销售属性值集合并判断是否被选中
+     * @param skuInfo
+     * @return
+     */
+    @Override
+    public List<SpuSaleAttr> getSpuSaleAttrListCheckBySku(SkuInfo skuInfo) {
+        return spuSaleAttrMapper.selectSpuSaleAttrListCheckBySku(skuInfo.getSpuId(),skuInfo.getId());
+    }
+
+    /**
+     * 根据spuId查询该spu下的所有skuId及其销售属性值ID
+     * @param spuId
+     * @return
+     */
+    @Override
+    public List<SkuSaleAttrValue> getSkuSaleAttrValueListBySpu(String spuId) {
+        return skuSaleAttrValueMapper.selectSkuSaleAttrValueListBySpu(spuId);
     }
 
 }
