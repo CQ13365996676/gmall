@@ -2,13 +2,13 @@ package com.atguigu.gmall.manage.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.atguigu.gmall.bean.SkuInfo;
+import com.atguigu.gmall.bean.SkuLsInfo;
 import com.atguigu.gmall.bean.SpuImage;
 import com.atguigu.gmall.bean.SpuSaleAttr;
+import com.atguigu.gmall.service.ListService;
 import com.atguigu.gmall.service.ManageService;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.BeanUtils;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -23,6 +23,9 @@ public class SkuManageController {
 
     @Reference
     private ManageService manageService;
+
+    @Reference
+    private ListService listService;
 
     /**
      * 根据spuID获取对应的图片集合
@@ -57,4 +60,20 @@ public class SkuManageController {
             manageService.saveSkuInfo(skuInfo);
         }
     }
+
+    /**
+     * 上架商品（将数据库中的数据保存到ES中）
+     * @param skuId
+     */
+    @RequestMapping("/onSale")
+    public void onSale(String skuId){
+        //1.获取skuInfo信息
+        SkuInfo skuInfo = manageService.getSkuInfo(skuId);
+        //2.将skuInfo信息拷贝到skuLsInfo中
+        SkuLsInfo skuLsInfo = new SkuLsInfo();
+        BeanUtils.copyProperties(skuInfo,skuLsInfo);
+        //3.调用ES模块中的商家信息
+        listService.saveSkuInfo(skuLsInfo);
+    }
+
 }

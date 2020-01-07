@@ -26,4 +26,12 @@
        catalog3_id = #{0}
     </select>
 
+    <select id="selectAttrInfoListByIds" resultMap="baseAttrInfoMap">
+        select bai.id,bai.attr_name,bai.catalog3_id,
+        bav.id attr_value_id ,bav.attr_id ,bav.value_name
+        from base_attr_info bai inner join base_attr_value bav
+        on bai.id = bav.attr_id
+        where bav.id in (${valueIds})
+    </select>
+
 </mapper>
