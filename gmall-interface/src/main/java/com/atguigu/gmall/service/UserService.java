@@ -23,4 +23,18 @@ public interface UserService {
      */
     List<UserAddress> getAddressByUserId(String id);
 
+    /**
+     * 登录请求
+     * @param userInfo
+     * @return
+     */
+    UserInfo login(UserInfo userInfo);
+
+    /**
+     * 根据用户ID查询redis中的用户信息
+     * @param userId
+     * @return
+     */
+    UserInfo verify(String userId);
+
 }
